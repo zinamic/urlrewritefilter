@@ -34,17 +34,20 @@
  */
 package org.tuckey.web.testhelper;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.WriteListener;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author Paul Tuckey
@@ -52,10 +55,10 @@ import java.util.Locale;
  */
 public class MockResponse implements HttpServletResponse {
 
-    private Hashtable responseHeaders = new Hashtable();
+    private Hashtable<String,String> responseHeaders = new Hashtable<>();
     private int status = 200;
     private String redirectedUrl;
-    private List cookies = new ArrayList();
+    private List<Cookie> cookies = new ArrayList<>();
     private Locale locale;
     MockSerlvetOutputStream mockSerlvetOutputStream = new MockSerlvetOutputStream();
     StringWriter stringWriter = new StringWriter();
@@ -225,9 +228,29 @@ public class MockResponse implements HttpServletResponse {
         return redirectedUrl;
     }
 
-    public List getCookies() {
+    public List<Cookie> getCookies() {
         return cookies;
     }
+
+	@Override
+	public void setContentLengthLong(long len) {
+		
+	}
+
+	@Override
+	public Collection<String> getHeaders(String name) {
+        String value = responseHeaders.get(name);
+        if (value != null) {
+        	return List.of(value);
+        } else {
+        	return null;
+        }
+	}
+
+	@Override
+	public Collection<String> getHeaderNames() {
+		return responseHeaders.keySet().stream().toList();
+	}
 }
 
 class MockSerlvetOutputStream extends ServletOutputStream {
@@ -245,4 +268,14 @@ class MockSerlvetOutputStream extends ServletOutputStream {
     public String getAsString() {
         return new String(baos.toByteArray());
     }
+
+	@Override
+	public boolean isReady() {
+		return true;
+	}
+
+	@Override
+	public void setWriteListener(WriteListener writeListener) {
+		throw new IllegalStateException("Not supported");
+	}
 }

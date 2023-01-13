@@ -34,10 +34,11 @@
  */
 package org.tuckey.web.filters.urlrewrite;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 import java.util.HashMap;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 
 /**
  * Handles wrapping the response so we can encode the url's on the way "out" (ie, in JSP or servlet generation).
@@ -91,7 +92,7 @@ public class UrlRewriteWrappedResponse extends HttpServletResponseWrapper {
             return super.encodeURL(s);
         }
         if (rou.isEncode()) {
-            rou.setTarget(super.encodeUrl(rou.getTarget()));
+            rou.setTarget(super.encodeURL(rou.getTarget()));
         }
         return processPostEncodeURL(rou.getTarget()).getTarget();
     }
@@ -102,7 +103,7 @@ public class UrlRewriteWrappedResponse extends HttpServletResponseWrapper {
             return super.encodeURL(s);
         }
         if (rou.isEncode()) {
-            rou.setTarget(super.encodeRedirectUrl(rou.getTarget()));
+            rou.setTarget(super.encodeRedirectURL(rou.getTarget()));
         }
         return processPostEncodeURL(rou.getTarget()).getTarget();
     }

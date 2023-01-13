@@ -34,19 +34,29 @@
  */
 package org.tuckey.web.testhelper;
 
-import org.tuckey.web.filters.urlrewrite.UrlRewriteFilterTest;
-import org.tuckey.web.filters.urlrewrite.utils.Log;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.EventListener;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Set;
+
+import org.tuckey.web.filters.urlrewrite.UrlRewriteFilterTest;
+import org.tuckey.web.filters.urlrewrite.utils.Log;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.ServletRegistration.Dynamic;
+import jakarta.servlet.SessionCookieConfig;
+import jakarta.servlet.SessionTrackingMode;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
 
 /**
  * @author Paul Tuckey
@@ -55,7 +65,7 @@ import java.util.Set;
 public class MockServletContext implements ServletContext {
 
     private static Log log = Log.getLog(MockServletContext.class);
-    private final Hashtable attributes = new Hashtable();
+    private final Hashtable<String,Object> attributes = new Hashtable<>();
 
     public ServletContext getContext(String s) {
         return new MockServletContext();
@@ -77,7 +87,7 @@ public class MockServletContext implements ServletContext {
         return null;
     }
 
-    public Set getResourcePaths(String s) {
+    public Set<String> getResourcePaths(String s) {
         return null;
     }
 
@@ -101,11 +111,11 @@ public class MockServletContext implements ServletContext {
         return null;
     }
 
-    public Enumeration getServlets() {
+    public Enumeration<?> getServlets() {
         return null;
     }
 
-    public Enumeration getServletNames() {
+    public Enumeration<?> getServletNames() {
         return null;
     }
 
@@ -143,11 +153,11 @@ public class MockServletContext implements ServletContext {
         return null;
     }
 
-    public Enumeration getInitParameterNames() {
+    public Enumeration<String> getInitParameterNames() {
         return null;
     }
 
-    public Enumeration getAttributeNames() {
+    public Enumeration<String> getAttributeNames() {
         return null;
     }
 
@@ -167,4 +177,179 @@ public class MockServletContext implements ServletContext {
     public String getServletContextName() {
         return null;
     }
+
+	@Override
+	public String getContextPath() {
+		return "/";
+	}
+
+	@Override
+	public int getEffectiveMajorVersion() {
+		return 0;
+	}
+
+	@Override
+	public int getEffectiveMinorVersion() {
+		return 0;
+	}
+
+	@Override
+	public boolean setInitParameter(String name, String value) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public Dynamic addServlet(String servletName, String className) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public Dynamic addServlet(String servletName, Servlet servlet) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public Dynamic addServlet(String servletName, Class<? extends Servlet> servletClass) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public Dynamic addJspFile(String servletName, String jspFile) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public <T extends Servlet> T createServlet(Class<T> clazz) throws ServletException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServletRegistration getServletRegistration(String servletName) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public Map<String, ? extends ServletRegistration> getServletRegistrations() {
+		return null;
+	}
+
+	@Override
+	public jakarta.servlet.FilterRegistration.Dynamic addFilter(String filterName, String className) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public jakarta.servlet.FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public jakarta.servlet.FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public <T extends Filter> T createFilter(Class<T> clazz) throws ServletException {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public FilterRegistration getFilterRegistration(String filterName) {
+		return null;
+	}
+
+	@Override
+	public Map<String, ? extends FilterRegistration> getFilterRegistrations() {
+		return null;
+	}
+
+	@Override
+	public SessionCookieConfig getSessionCookieConfig() {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public void addListener(String className) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public <T extends EventListener> void addListener(T t) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public void addListener(Class<? extends EventListener> listenerClass) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public JspConfigDescriptor getJspConfigDescriptor() {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public ClassLoader getClassLoader() {
+		return this.getClassLoader();
+	}
+
+	@Override
+	public void declareRoles(String... roleNames) {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public String getVirtualServerName() {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public int getSessionTimeout() {
+		return 1000;
+	}
+
+	@Override
+	public void setSessionTimeout(int sessionTimeout) {
+	}
+
+	@Override
+	public String getRequestCharacterEncoding() {
+		return null;
+	}
+
+	@Override
+	public void setRequestCharacterEncoding(String encoding) {
+
+	}
+
+	@Override
+	public String getResponseCharacterEncoding() {
+		return null;
+	}
+
+	@Override
+	public void setResponseCharacterEncoding(String encoding) {
+		
+	}
 }

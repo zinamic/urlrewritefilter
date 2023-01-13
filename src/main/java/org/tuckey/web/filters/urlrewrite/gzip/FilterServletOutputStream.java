@@ -1,5 +1,8 @@
 package org.tuckey.web.filters.urlrewrite.gzip;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 /**
  * Modified version of:
  * http://svn.terracotta.org/svn/ehcache/trunk/web/web/src/main/java/net/sf/ehcache/constructs/web/filter/FilterServletOutputStream.java
@@ -20,12 +23,11 @@ package org.tuckey.web.filters.urlrewrite.gzip;
  *  limitations under the License.
  */
 
-import javax.servlet.ServletOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.WriteListener;
 
 /**
- * A custom {@link javax.servlet.ServletOutputStream} for use by our filters
+ * A custom {@link jakarta.servlet.ServletOutputStream} for use by our filters
  *
  * @version $Id: FilterServletOutputStream.java 744 2008-08-16 20:10:49Z gregluck $
  * @author <a href="mailto:gluck@thoughtworks.com">Greg Luck</a>
@@ -61,5 +63,15 @@ public class FilterServletOutputStream extends ServletOutputStream {
     public void write(final byte[] b, final int off, final int len) throws IOException {
         stream.write(b, off, len);
     }
+
+	@Override
+	public boolean isReady() {
+		return true;
+	}
+
+	@Override
+	public void setWriteListener(WriteListener writeListener) {
+		throw new UnsupportedOperationException();
+	}
 }
 

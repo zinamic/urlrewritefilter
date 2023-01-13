@@ -34,10 +34,10 @@
  */
 package org.tuckey.web.filters.urlrewrite;
 
-import javax.servlet.ServletContext;
-
 import org.tuckey.web.filters.urlrewrite.extend.RewriteMatch;
 import org.tuckey.web.filters.urlrewrite.utils.Log;
+
+import jakarta.servlet.ServletContext;
 
 
 public class RuleExecutionOutput {

@@ -34,21 +34,6 @@
  */
 package org.tuckey.web.filters.urlrewrite.test;
 
-import junit.framework.TestCase;
-import org.tuckey.web.filters.urlrewrite.Conf;
-import org.tuckey.web.filters.urlrewrite.NormalRewrittenUrl;
-import org.tuckey.web.filters.urlrewrite.Rule;
-import org.tuckey.web.filters.urlrewrite.UrlRewriter;
-import org.tuckey.web.filters.urlrewrite.utils.Log;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -57,11 +42,36 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import org.tuckey.web.filters.urlrewrite.Conf;
+import org.tuckey.web.filters.urlrewrite.NormalRewrittenUrl;
+import org.tuckey.web.filters.urlrewrite.Rule;
+import org.tuckey.web.filters.urlrewrite.UrlRewriter;
+import org.tuckey.web.filters.urlrewrite.utils.Log;
+
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
+import junit.framework.TestCase;
 
 /**
  * The idea for UrlRewriteTestCase is that users can extend it to create their own
@@ -533,6 +543,115 @@ class MockRequest implements HttpServletRequest {
         this.localPort = localPort;
     }
 
+	@Override
+	public long getContentLengthLong() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ServletContext getServletContext() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AsyncContext startAsync() throws IllegalStateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse)
+			throws IllegalStateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isAsyncStarted() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAsyncSupported() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public AsyncContext getAsyncContext() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DispatcherType getDispatcherType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getRequestId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getProtocolRequestId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServletConnection getServletConnection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String changeSessionId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void login(String username, String password) throws ServletException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void logout() throws ServletException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Collection<Part> getParts() throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Part getPart(String name) throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
 
 
@@ -702,4 +821,22 @@ class MockResponse implements HttpServletResponse {
     public List getCookies() {
         return cookies;
     }
+
+	@Override
+	public void setContentLengthLong(long len) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Collection<String> getHeaders(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection<String> getHeaderNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

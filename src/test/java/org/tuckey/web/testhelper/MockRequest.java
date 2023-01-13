@@ -34,21 +34,33 @@
  */
 package org.tuckey.web.testhelper;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
+import java.io.CharArrayReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.io.CharArrayReader;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
+
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
 
 /**
  * @author Paul Tuckey
@@ -60,9 +72,9 @@ public class MockRequest implements HttpServletRequest {
     private int serverPort = 80;
     private String queryString;
     private String method = "GET";
-    private Hashtable headers = new Hashtable();
-    private Hashtable attrs = new Hashtable();
-    private Hashtable parameters = new Hashtable();
+    private Hashtable<String,String> headers = new Hashtable<>();
+    private Hashtable<String,Object> attrs = new Hashtable<>();
+    private Hashtable<String,String> parameters = new Hashtable<>();
     private MockSession session = null;
     private String authType;
     private int contentLength;
@@ -123,11 +135,11 @@ public class MockRequest implements HttpServletRequest {
         return (String) headers.get(s);
     }
 
-    public Enumeration getHeaders(String s) {
+    public Enumeration<String> getHeaders(String s) {
         return headers.elements();
     }
 
-    public Enumeration getHeaderNames() {
+    public Enumeration<String> getHeaderNames() {
         return headers.keys();
     }
 
@@ -159,7 +171,7 @@ public class MockRequest implements HttpServletRequest {
         return remoteUser;
     }
 
-    private ArrayList roles = new ArrayList();
+    private ArrayList<String> roles = new ArrayList<>();
 
     public boolean isUserInRole(String s) {
         return roles.contains(s);
@@ -236,7 +248,7 @@ public class MockRequest implements HttpServletRequest {
         return attrs.get(s);
     }
 
-    public Enumeration getAttributeNames() {
+    public Enumeration<String> getAttributeNames() {
         return null;
     }
 
@@ -270,7 +282,7 @@ public class MockRequest implements HttpServletRequest {
         parameters.put(s, v);
     }
 
-    public Enumeration getParameterNames() {
+    public Enumeration<String> getParameterNames() {
         return parameters.keys();
     }
 
@@ -278,7 +290,7 @@ public class MockRequest implements HttpServletRequest {
         return new String[0];
     }
 
-    public Map getParameterMap() {
+    public Map<String,String[]> getParameterMap() {
         return null;
     }
 
@@ -322,7 +334,7 @@ public class MockRequest implements HttpServletRequest {
         return null;
     }
 
-    public Enumeration getLocales() {
+    public Enumeration<Locale> getLocales() {
         return null;
     }
 
@@ -457,4 +469,94 @@ public class MockRequest implements HttpServletRequest {
     public void setRequestedSessionIdValid(boolean requestedSessionIdValid) {
         this.requestedSessionIdValid = requestedSessionIdValid;
     }
+
+	@Override
+	public long getContentLengthLong() {
+		return contentLength;
+	}
+
+	@Override
+	public ServletContext getServletContext() {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public AsyncContext startAsync() throws IllegalStateException {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public boolean isAsyncStarted() {
+		return false;
+	}
+
+	@Override
+	public boolean isAsyncSupported() {
+		return false;
+	}
+
+	@Override
+	public AsyncContext getAsyncContext() {
+		return null;
+	}
+
+	@Override
+	public DispatcherType getDispatcherType() {
+		return DispatcherType.FORWARD;
+	}
+
+	@Override
+	public String getRequestId() {
+		return null;
+	}
+
+	@Override
+	public String getProtocolRequestId() {
+		return null;
+	}
+
+	@Override
+	public ServletConnection getServletConnection() {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public String changeSessionId() {
+		throw new IllegalStateException("Not supported");
+	}
+
+	@Override
+	public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
+		throw new ServletException("Not supported");
+	}
+
+	@Override
+	public void login(String username, String password) throws ServletException {
+		throw new ServletException("Not supported");
+	}
+
+	@Override
+	public void logout() throws ServletException {
+		throw new ServletException("Not supported");
+	}
+
+	@Override
+	public Collection<Part> getParts() throws IOException, ServletException {
+		throw new ServletException("Not supported");
+	}
+
+	@Override
+	public Part getPart(String name) throws IOException, ServletException {
+		throw new ServletException("Not supported");
+	}
+
+	@Override
+	public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException {
+		throw new ServletException("Not supported");
+	}
 }

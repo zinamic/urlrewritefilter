@@ -34,11 +34,11 @@
  */
 package org.tuckey.web.testhelper;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionContext;
 import java.util.Enumeration;
 import java.util.Hashtable;
+
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * @author Paul Tuckey
@@ -47,7 +47,7 @@ import java.util.Hashtable;
 public class MockSession implements HttpSession {
 
 	MockServletContext servletContext = new MockServletContext();
-    Hashtable attrs = new Hashtable();
+    Hashtable<String,Object> attrs = new Hashtable<>();
     private boolean sessionNew;
 
     public long getCreationTime() {
@@ -78,13 +78,6 @@ public class MockSession implements HttpSession {
         return 0;
     }
 
-    /**
-     * @deprecated
-     */
-    public HttpSessionContext getSessionContext() {
-        return null;
-    }
-
     public Object getAttribute(String s) {
         return attrs.get(s);
     }
@@ -96,8 +89,8 @@ public class MockSession implements HttpSession {
         return null;
     }
 
-    public Enumeration getAttributeNames() {
-        return null;
+    public Enumeration<String> getAttributeNames() {
+        return attrs.keys();
     }
 
     /**
