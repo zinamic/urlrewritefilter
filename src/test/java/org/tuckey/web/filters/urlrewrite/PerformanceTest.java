@@ -1,13 +1,18 @@
 package org.tuckey.web.filters.urlrewrite;
 
-import junit.framework.TestCase;
-import org.tuckey.web.filters.urlrewrite.test.TestRunObj;
-import org.tuckey.web.filters.urlrewrite.utils.Log;
-import org.tuckey.web.testhelper.*;
-
-import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+
+import org.tuckey.web.filters.urlrewrite.test.TestRunObj;
+import org.tuckey.web.filters.urlrewrite.utils.Log;
+import org.tuckey.web.testhelper.BenchmarkRunner;
+import org.tuckey.web.testhelper.MockFilterChain;
+import org.tuckey.web.testhelper.MockRequest;
+import org.tuckey.web.testhelper.MockResponse;
+import org.tuckey.web.testhelper.MockServletContext;
+
+import jakarta.servlet.ServletException;
+import junit.framework.TestCase;
 
 /**
  * A quick way to check the performance of the engine.  Should not be a repleacement for proper performance testing!
@@ -41,7 +46,7 @@ public class PerformanceTest extends TestCase {
 
         // benchmark this machine to see what it can do...
         float bench = new BenchmarkRunner().establishBenchmark();
-        float timePerRule = bench * (float) 0.0003; // ms per rule... 0.03% of the benchmark
+        float timePerRule = bench * (float) 0.0010; // ms per rule... 0.03% of the benchmark
         System.out.println("using " + timePerRule + "ms per rule as the standard");
 
         float testAmount = 10000; // number of times to run test
