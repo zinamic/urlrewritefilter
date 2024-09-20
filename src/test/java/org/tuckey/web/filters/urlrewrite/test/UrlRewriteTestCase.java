@@ -839,4 +839,9 @@ class MockResponse implements HttpServletResponse {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void sendRedirect(String arg0, int arg1, boolean arg2) throws IOException {
+		redirectedUrl = arg0;
+	}
 }
