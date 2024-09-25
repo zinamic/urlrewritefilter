@@ -251,6 +251,11 @@ public class MockResponse implements HttpServletResponse {
 	public Collection<String> getHeaderNames() {
 		return responseHeaders.keySet().stream().toList();
 	}
+
+	@Override
+	public void sendRedirect(String arg0, int arg1, boolean arg2) throws IOException {
+		redirectedUrl = arg0;
+	}
 }
 
 class MockSerlvetOutputStream extends ServletOutputStream {
